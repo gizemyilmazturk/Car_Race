@@ -1,0 +1,43 @@
+package computer_master_barrier;
+
+import java.awt.Graphics;
+
+import computer_master_graphics.loadImage;
+import computer_master_motor.car;
+
+public class Barrier {
+
+	private int x,y;
+	private int barWidth = 40,barHeight = 40;
+	private car motor;
+	public Barrier(car motor,int x , int y){
+		this.x = x;
+		this.y =y;
+		this.motor = motor;
+		
+	}
+	
+	public void tick(){
+		
+	}
+	public void render(Graphics g){
+		g.drawImage(loadImage.BarrierImage, x, y-motor.getOfset(),barWidth,barHeight,null);
+	}
+	
+	public int getX(){
+		return x;
+	}
+	public int getY(){
+		return y;
+	}
+
+	public int getBarWidth() {
+		return barWidth;
+	}
+
+	public int getBarHeight() {
+		return barHeight;
+	}
+	
+	
+}
