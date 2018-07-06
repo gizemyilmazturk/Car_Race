@@ -1,0 +1,15 @@
+package computer_master_tile;
+
+
+
+import computer_master_graphics.loadImage;
+
+public class footPathTile extends Tile{
+
+	public footPathTile(int id) {
+		super(loadImage.footPath, id);
+	
+	}
+
+	
+}
