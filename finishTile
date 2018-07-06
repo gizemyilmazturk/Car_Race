@@ -1,0 +1,14 @@
+package computer_master_tile;
+
+import java.awt.image.BufferedImage;
+
+import computer_master_graphics.loadImage;
+
+public class FinishTile extends Tile{
+
+	public FinishTile( int id) {
+		super(loadImage.finish, id);
+		
+	}
+
+}
