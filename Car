@@ -1,0 +1,174 @@
+package computer_master_motor;
+
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+
+import computer_master_display.Display;
+import computer_master_graphics.loadImage;
+import computer_master_tile.Tile;
+/*Araba ile ilgili özellikler bu classta yer alıyor
+ * can hız gibi
+ * aynı zamanda klavyeyi bu classta dinliyoruz
+ * 
+ */
+public class car implements KeyListener {
+	private int x,y;
+	private int motWidth,motHeight;
+	private int ofset;
+	
+	private double speed;
+	
+	private boolean left,right,up,down;
+	
+	private int health;
+	private int point;
+	
+	
+	public car(){
+		x =Display.width/2;
+		y = Tile.tileHeight*100 -50;
+		motHeight = 100;
+		motWidth =50;
+		health =3;
+		ofset =0;
+		speed = 0.3f;
+		
+		
+		
+	}
+	public void init(){
+		Display.frame.addKeyListener(this);
+		
+	}
+	public void tick(){
+		
+		ofset =y -(Display.height-100);
+		
+		if(right){
+			if(x < 335)
+			x += 1;
+		}
+		if(left){
+			if(x > 125)
+			x -= 1;
+		}
+		if(up){
+			if(y > 550){
+			speed += 0.03f;
+			if(speed >= 7)
+				speed =7;
+			}
+		}
+		
+		if(y > 550){
+			y -= speed;
+			point += speed;
+		}
+
+		if(down){
+			speed -= 0.030f;
+			if(speed <= 0)
+				speed = 0;
+		}
+		
+		}
+	
+	public int getPoint() {
+		return point;
+	}
+	public void setPoint(int point) {
+		this.point = point;
+	}
+	public double getSpeed(){
+		return speed;
+	}
+	public void setSpeed(double speed){
+		this.speed = speed;
+	}
+	public int getHealth(){
+		return health;
+	}
+	public void setHealth(int health){
+		this.health = health;
+	}
+	
+	public int getX(){
+		return x;
+	}
+	public int getY(){
+		return y;
+	}
+	public void setY(int y){
+		this.y = y;
+	}
+	
+	public int getOfset(){
+		return ofset;
+	}
+	public int getMotWidth() {
+		return motWidth;
+	}
+	public int getMotHeight() {
+		return motHeight;
+	}
+	
+	public void drawBoard(Graphics g){
+	
+		
+		g.setColor(Color.BLACK);
+		g.setFont(new Font("arial", Font.BOLD, 30));
+		g.drawString("Health : " + health, 20, 40);
+		
+		g.setFont(new Font("arial", Font.BOLD, 30));
+		g.drawString("Score : " + point, 20, 80);
+		
+	}
+	
+	public void render(Graphics g){
+		g.setColor(Color.red);
+		g.drawImage(loadImage.playerMotor, x, y-ofset,motWidth,motHeight,null);
+		
+		drawBoard(g);
+		
+	}
+	
+	public void keyPressed(KeyEvent e) {
+		int source = e.getKeyCode();
+		if(source == KeyEvent.VK_RIGHT){
+			right = true;
+		}
+		if(source == KeyEvent.VK_LEFT){
+			left = true;
+		}
+		if(source == KeyEvent.VK_DOWN){
+			down = true;
+		}
+		if(source == KeyEvent.VK_UP){
+			up = true;
+		}
+		
+	}
+	public void keyReleased(KeyEvent e) {
+		int source = e.getKeyCode();
+		if(source == KeyEvent.VK_RIGHT){
+			right = false;
+		}
+		if(source == KeyEvent.VK_LEFT){
+			left = false;
+		}
+		if(source == KeyEvent.VK_DOWN){
+			down = false;
+		}
+		if(source == KeyEvent.VK_UP){
+			up = false;
+		}
+	}
+	public void keyTyped(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+}
