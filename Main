@@ -1,0 +1,23 @@
+package computer_master_main;
+
+import computer_master_display.Display;
+import computer_master_game.gameSetUp;
+
+public class main {
+
+	public static void main(String[] args) {
+// 	1. sıra  burası ilk çalışıyor	
+		
+		// ilk olarak gameSetup nesnesi oluşturuyoruz ve onun içine 
+		// parametrelerimi yolluyoruz "car " 500 600 
+		gameSetUp game = new gameSetUp("Car", 500, 600);
+		
+		// direk gameSetup nesnesi oluşturup içerisindeki 
+		//start metoduna ulaşıyoruz ve onu çalıştırıyoruz
+		game.start();
+		
+		
+		
+	}
+
+}
