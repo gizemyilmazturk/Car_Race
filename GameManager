@@ -1,0 +1,140 @@
+package computer_master_manager;
+
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Graphics;
+import java.util.ArrayList;
+import java.util.Random;
+
+import computer_master_barrier.Barrier;
+import computer_master_display.Display;
+import computer_master_graphics.loadImage;
+import computer_master_motor.car;
+import computer_master_tile.Tile;
+import computer_master_world.world;
+
+/* Oyun içi ayarlamalardan sorumlu class
+ * 
+ *  Araba nesnesi oluşturuluyor
+ * Dünya nesnesi oluşturuluyor
+ * Bariyer nesnesi oluşturuluyor
+ * 
+ * Araba ile bariyerlerin çarpma durumları test ediliyor
+ * Çarpışma olursa healt iniyor ve 0 olunca oyunu tekrar başlatıyor
+ * Oyuna random bariyer koyuluyor
+ * 
+ * 
+ * 
+ * */
+
+public class gameManager {
+	
+	
+	
+	
+	private world world;
+	private car motor;
+	
+	private long time = System.nanoTime();
+	private long delay;
+	private int health;
+	
+	private ArrayList<Barrier> barriers;
+	
+	
+	public gameManager(){
+		motor = new car();
+		world = new world(motor);
+		barriers = new ArrayList<Barrier>();
+		health = motor.getHealth();
+		delay = 2000;
+	}
+	public void init(){
+	
+		
+		motor.init();
+		loadImage.init();
+	
+	}
+	public void tick(){
+		
+		if(health > 0){
+		motor.tick();
+	
+		}else{
+			motor.setHealth(3);
+			motor.setPoint(0);
+			health = motor.getHealth();
+			motor.setY(Tile.tileHeight*100 -50);
+		
+			
+		}
+		Random rand = new Random();
+		int randX = rand.nextInt(300);
+		int randY = rand.nextInt(Display.height);
+		
+		while(randX < 150){
+			randX = rand.nextInt(300);
+		}
+		
+		for(int i =0; i< barriers.size(); i++){
+			int px = motor.getX();
+			int py = motor.getY();
+			int pw = motor.getMotWidth();
+			int ph = motor.getMotHeight();
+			
+			int bx = barriers.get(i).getX();
+			int by = barriers.get(i).getY();
+			int bh = barriers.get(i).getBarHeight();
+			int bw = barriers.get(i).getBarWidth();
+			
+			if(px < bx + bw && px +pw > bx && py < by + bw && py +pw > by ){
+				barriers.remove(i);
+				i--;
+				health--;
+				System.out.println(health);
+				motor.setSpeed(0.0f);
+				motor.setHealth(health);
+			}
+			
+		}
+		
+		
+		
+		long elapsed = (System.nanoTime() - time) /1000000;
+		if(elapsed > delay){
+			
+			if(motor.getSpeed()>=1){
+				barriers.add(new Barrier(motor,randX, (-randY) + motor.getOfset()));
+			}
+		time = System.nanoTime();
+		}
+		
+		for(int i=0; i<barriers.size(); i++){
+			barriers.get(i).tick();
+		}
+	
+	}
+	
+	public void render(Graphics g){
+		world.render(g);
+		if(health <= 0 ){
+			g.setColor(Color.red);
+			g.setFont(new Font("arial", Font.BOLD, 33));
+			g.drawString("Game Over ", (Display.width/2)-100, Display.height/2);
+			
+		}
+		
+		
+			
+			motor.render(g);
+			
+			for(int i=0; i<barriers.size(); i++){
+				barriers.get(i).render(g);
+			}
+		
+		
+		
+	}
+
+}
