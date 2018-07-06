@@ -1,0 +1,16 @@
+package computer_master_tile;
+
+import java.awt.image.BufferedImage;
+
+import computer_master_graphics.loadImage;
+/*
+ * 
+ */
+public class grassTile extends Tile{
+
+	public grassTile(int id) {
+		super(loadImage.grass, id);
+		
+	}
+
+}
