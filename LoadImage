@@ -1,0 +1,47 @@
+package computer_master_graphics;
+
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
+/*Resim dosyasılarına ulaşıp 
+ * istenen ayarlamaları yapıyor
+ * 
+ */
+
+
+public class loadImage {
+	public static BufferedImage Motors,playerMotor,Barrier,BarrierImage, fullImage,road,grass,finish,footPath;
+	
+	
+	public static void init(){
+	fullImage = imageLoader("/tile.png");
+	Motors = imageLoader("/transparentCar.png");
+	Barrier = imageLoader("/transparentBarrier.png");
+	crop();
+		
+	}
+	
+	// resimleri verdiğimiz uzantıdan alıp okuyor
+	public static BufferedImage imageLoader(String path){
+		try {
+			
+			return ImageIO.read(loadImage.class.getResource(path));
+		} catch (IOException e) {
+			e.printStackTrace();
+			System.exit(1);
+		}
+		return null;
+	}
+	
+	
+	// tek tek kesip resim özellikliklerini değişkene atıyor
+	public static void crop(){
+		grass = fullImage.getSubimage(7, 8,119, 122);
+		road = fullImage.getSubimage(134, 8,120, 122);
+		footPath = fullImage.getSubimage(260, 8, 119, 121);
+		finish = fullImage.getSubimage(388, 8, 119, 121);
+		playerMotor = Motors.getSubimage(0, 0, 129, 325);
+		BarrierImage = Barrier.getSubimage(0, 0, 239, 166);
+	}
+}
